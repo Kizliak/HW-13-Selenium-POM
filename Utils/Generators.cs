@@ -97,7 +97,7 @@ namespace HW13.Utils
 
         public static string GetAddress()
         {
-            return "123 South Figueroa Street, Carson";
+            return "2459 Bentley Ave. Los Angeles CA 90025";
         }
     }
 }

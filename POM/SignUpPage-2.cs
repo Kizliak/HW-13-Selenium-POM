@@ -43,20 +43,21 @@ namespace HW13.POM
 
         public SignUpPage_2 InputCompanyLocation(string location)
         {
+            _webDriver.FindElement(_locationField).Click();
             _webDriver.FindElement(_locationField).SendKeys(location);
-            Wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("div[class=\"pac-container pac-logo\"]")));
+            Wait.Until(ExpectedConditions.ElementExists(By.CssSelector("span[class=\"pac-item-query\"]")));
             _webDriver.FindElement(_locationField).SendKeys(Keys.ArrowDown);
+            Thread.Sleep(300);
             _webDriver.FindElement(_locationField).SendKeys(Keys.Enter);
-            Thread.Sleep(2500);
+            Thread.Sleep(300);
             return this;
         }
 
         public SignUpPage_2 ChooseIndustry(int industryNum)
         {
             _webDriver.FindElement(_industryField).Click();
-            Wait.Until(ExpectedConditions.ElementExists(_industryDropDownChecker));
+            Wait.Until(ExpectedConditions.ElementIsVisible(_industryDropDownChecker));
             _webDriver.FindElements(_industryDropDown)[industryNum].Click();
-            Thread.Sleep(2500);
             return this;
         }
 

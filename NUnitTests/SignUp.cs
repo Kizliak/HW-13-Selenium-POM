@@ -47,9 +47,12 @@ namespace HW13
                 .ChooseIndustry(Generators.Randomchik.Next(0, 4))
                 .ClickFinishtButton();
 
-            var actualResultMessage = signUpPage2.GetCurrentUrl();
+            Thread.Sleep(2000);
 
-            Assert.AreEqual(expected: "https://newbookmodels.com/explore", actualResultMessage);
+            var registeredPage = new LoggedInPage(_webDriver);
+            var actualResultMessage = registeredPage.GetCurrentUrl();
+
+            Assert.AreEqual(expected: "https://newbookmodels.com/explore", actual: actualResultMessage);
         }
 
         [TearDown]
