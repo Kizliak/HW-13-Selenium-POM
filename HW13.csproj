@@ -1,10 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="NUnitTests\SingUp.cs~RF2dd884d.TMP" />
+    <None Remove="POM\SignUpPage.cs~RF2ea451a.TMP" />
+    <None Remove="Utils\Generators.cs~RF2e0f39b.TMP" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
