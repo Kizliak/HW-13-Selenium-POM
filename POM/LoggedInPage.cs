@@ -16,6 +16,7 @@ namespace HW13.POM
 
         //private readonly By _companyNameField = By.CssSelector("input[name=\"company_name\"]");
         private readonly By _avatarImage = By.ClassName("AvatarClient__avatar--3TC7_");
+        private readonly By _welcomeMessage = By.CssSelector("div[class=\"WelcomePage__welcomeBackSection--1fVmu\"] section div");
         private readonly string _pageUrl;
 
         WebDriverWait Wait;
@@ -24,13 +25,23 @@ namespace HW13.POM
         {
             _webDriver = webDriver;
             Wait = new WebDriverWait(_webDriver, new TimeSpan(0, 0, 15));
-            Wait.Until(ExpectedConditions.ElementExists(_avatarImage));
+            Wait.Until(ExpectedConditions.ElementExists(_welcomeMessage));
+            Wait.Until(ExpectedConditions.ElementIsVisible(_avatarImage));
             _pageUrl = _webDriver.Url;
         }
 
         public string GetCurrentUrl()
         {
             return _pageUrl;
+        }
+
+        public bool CheckIfNameDisplayOnPage(string name)
+        {
+            if (_webDriver.FindElement(_welcomeMessage).Text.Contains(name))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

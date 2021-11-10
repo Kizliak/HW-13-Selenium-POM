@@ -31,8 +31,9 @@ namespace HW13
         {
             var signUpPage = new SignUpPage(_webDriver);
             string password = Generators.GetRndPass();
+            string name = Generators.GetRandName();
             signUpPage.GoToSignUpPage()
-                .InputFirstName(Generators.GetRandName())
+                .InputFirstName(name)
                 .InputLastName(Generators.GetRandName())
                 .InputEmail(Generators.GetRndEmail())
                 .InputPassword(password)
@@ -47,12 +48,10 @@ namespace HW13
                 .ChooseIndustry(Generators.Randomchik.Next(0, 4))
                 .ClickFinishtButton();
 
-            Thread.Sleep(2000);
-
             var registeredPage = new LoggedInPage(_webDriver);
-            var actualResultMessage = registeredPage.GetCurrentUrl();
+            bool actualResultMessage = registeredPage.CheckIfNameDisplayOnPage(name);
 
-            Assert.AreEqual(expected: "https://newbookmodels.com/explore", actual: actualResultMessage);
+            Assert.AreEqual(expected: true, actual: actualResultMessage);
         }
 
         [TearDown]
