@@ -49,9 +49,10 @@ namespace HW13
                 .ClickFinishtButton();
 
             var registeredPage = new LoggedInPage(_webDriver);
-            bool actualResultMessage = registeredPage.CheckIfNameDisplayOnPage(name);
+            bool nameDisplayOnPage = registeredPage.CheckIfNameDisplayOnPage(name);
 
-            Assert.AreEqual(expected: true, actual: actualResultMessage);
+            Assert.AreEqual(expected: "https://newbookmodels.com/explore", actual: registeredPage.GetCurrentUrl());
+            Assert.AreEqual(expected: true, actual: nameDisplayOnPage);
         }
 
         [TearDown]
