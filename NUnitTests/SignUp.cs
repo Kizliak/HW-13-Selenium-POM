@@ -27,7 +27,7 @@ namespace HW13
         }
 
         [Test]
-        public void SignUpValid()
+        public void SignUpFullValid()
         {
             var signUpPage = new SignUpPage(_webDriver);
             string password = Generators.GetRndPass();
@@ -203,7 +203,7 @@ namespace HW13
             Assert.AreEqual(error, signUpPage.CheckIfValidSvgHintShow(0));
         }
 
-        [TestCase("A1jlfunajeb@laste.ml", "A1jlfunajeb@laste.ml", true)] //valid
+        //[TestCase("A1jlfunajeb@laste.ml", "A1jlfunajeb@laste.ml", true)] //valid
         [TestCase("a1jlfunajeb@laste.ml", "a1jlfunajeb@laste.ml", false)] //invalid
         public void PasswordMustContainCapitalLetter(string password, string confirmPassword, bool error)
         {
@@ -221,6 +221,67 @@ namespace HW13
             Thread.Sleep(2000);
             Assert.AreEqual(expected: "https://newbookmodels.com/join", actual: signUpPage2.GetCurrentUrl());
             Assert.AreEqual(error, signUpPage.CheckIfValidSvgHintShow(2));
+        }
+
+
+        //[TestCase("A1jlfunajeb@laste.ml", "A1jlfunajeb@laste.ml", true)] //valid
+        [TestCase("A1JLFUNA@LFU.NA", "A1JLFUNA@LFU.NA", false)] //invalid
+        public void PasswordMustContainLowercaseChar(string password, string confirmPassword, bool error)
+        {
+            var signUpPage = new SignUpPage(_webDriver);
+            signUpPage.GoToSignUpPage()
+                .InputFirstName(Generators.GetRandName())
+                .InputLastName(Generators.GetRandName())
+                .InputEmail(Generators.GetRndEmail())
+                .InputPassword(password)
+                .InputPasswordConfirm(confirmPassword)
+                .InputMobile(Generators.GetRndPhone())
+                .ClickNextButton();
+
+            var signUpPage2 = new SignUpPage_2(_webDriver);
+            Thread.Sleep(2000);
+            Assert.AreEqual(expected: "https://newbookmodels.com/join", actual: signUpPage2.GetCurrentUrl());
+            Assert.AreEqual(error, signUpPage.CheckIfValidSvgHintShow(3));
+        }
+
+        //[TestCase("A1jlfunajeb@laste.ml", "A1jlfunajeb@laste.ml", true)] //valid
+        [TestCase("A1jlfunajeblasteml", "A1jlfunajeblasteml", false)] //invalid
+        public void PasswordMustContainSpecialChar(string password, string confirmPassword, bool error)
+        {
+            var signUpPage = new SignUpPage(_webDriver);
+            signUpPage.GoToSignUpPage()
+                .InputFirstName(Generators.GetRandName())
+                .InputLastName(Generators.GetRandName())
+                .InputEmail(Generators.GetRndEmail())
+                .InputPassword(password)
+                .InputPasswordConfirm(confirmPassword)
+                .InputMobile(Generators.GetRndPhone())
+                .ClickNextButton();
+
+            var signUpPage2 = new SignUpPage_2(_webDriver);
+            Thread.Sleep(2000);
+            Assert.AreEqual(expected: "https://newbookmodels.com/join", actual: signUpPage2.GetCurrentUrl());
+            Assert.AreEqual(error, signUpPage.CheckIfValidSvgHintShow(4));
+        }
+
+        //[TestCase("A1jlfunajeb@laste.ml", "A1jlfunajeb@laste.ml", true)] //valid
+        [TestCase("A1jlfunajeb@laste.ml", "A1jlfunajeb@laste.m", false)] //invalid
+        public void PasswordMustMatchConfirmation(string password, string confirmPassword, bool error)
+        {
+            var signUpPage = new SignUpPage(_webDriver);
+            signUpPage.GoToSignUpPage()
+                .InputFirstName(Generators.GetRandName())
+                .InputLastName(Generators.GetRandName())
+                .InputEmail(Generators.GetRndEmail())
+                .InputPassword(password)
+                .InputPasswordConfirm(confirmPassword)
+                .InputMobile(Generators.GetRndPhone())
+                .ClickNextButton();
+
+            var signUpPage2 = new SignUpPage_2(_webDriver);
+            Thread.Sleep(2000);
+            Assert.AreEqual(expected: "https://newbookmodels.com/join", actual: signUpPage2.GetCurrentUrl());
+            Assert.AreEqual(error, signUpPage.CheckIfValidSvgHintShow(5));
         }
 
         [TearDown]
