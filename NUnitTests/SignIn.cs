@@ -12,7 +12,7 @@ using HW13.POM;
 
 namespace HW13
 {
-    public class Tests
+    public class SignIn
     {
         private IWebDriver _webDriver;
 
@@ -25,17 +25,33 @@ namespace HW13
             _webDriver.Manage().Window.Maximize();
         }
 
-        [Test]
-        public void LoginWithWrongCredentials()
+        [TestCase ("wrongEmail@gmail.com", "wrongPassword123")]
+        public void LoginUsingWrongCredentials(string login, string passwrod)
         {
             var signInPage = new SignInPage(_webDriver);
             signInPage.GoToSingInPage()
-                .InputEmailField("wrongEmail@gmail.com")
-                .InputPasswordField("wrongPassword123")
+                .InputEmailField(login)
+                .InputPasswordField(passwrod)
                 .ClickLoginButton();
             var actualResultMessage = signInPage.GetErrorMessage();
 
             Assert.AreEqual(expected:"Please enter a correct email and password.", actualResultMessage);
+        }
+
+        [TestCase("sacbdwplb@supere.ml", "1Asacbdwplb@supere.ml", "fdsf")]
+        public void LoginUsingRegisteredCredentials(string login, string passwrod, string name)
+        {
+            var signInPage = new SignInPage(_webDriver);
+            signInPage.GoToSingInPage()
+                .InputEmailField(login)
+                .InputPasswordField(passwrod)
+                .ClickLoginButton();
+
+            var registeredPage = new LoggedInPage(_webDriver);
+            bool nameDisplayOnPage = registeredPage.CheckIfNameDisplayOnPage(name);
+
+            Assert.AreEqual(expected: "https://newbookmodels.com/explore", actual: registeredPage.GetCurrentUrl());
+            Assert.AreEqual(expected: true, actual: nameDisplayOnPage);
         }
 
         [TearDown]

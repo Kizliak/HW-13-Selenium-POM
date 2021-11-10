@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
@@ -13,13 +14,13 @@ namespace HW13.POM
     class LoggedInPage
     {
         private readonly IWebDriver _webDriver;
-
-        //private readonly By _companyNameField = By.CssSelector("input[name=\"company_name\"]");
-        private readonly By _avatarImage = By.ClassName("AvatarClient__avatar--3TC7_");
-        private readonly By _welcomeMessage = By.CssSelector("div[class=\"WelcomePage__welcomeBackSection--1fVmu\"] section div");
+        WebDriverWait Wait;
+        Actions action;
         private readonly string _pageUrl;
 
-        WebDriverWait Wait;
+        private readonly By _avatarImage = By.ClassName("AvatarClient__avatar--3TC7_");
+        private readonly By _welcomeMessage = By.CssSelector("div[class=\"WelcomePage__welcomeBackSection--1fVmu\"] section div");
+        private readonly By _popupWindowEmailActivation = By.CssSelector("div[class=\"resend-email__root\"]");
 
         public LoggedInPage(IWebDriver webDriver)
         {
@@ -28,6 +29,21 @@ namespace HW13.POM
             Wait.Until(ExpectedConditions.ElementExists(_welcomeMessage));
             Wait.Until(ExpectedConditions.ElementIsVisible(_avatarImage));
             _pageUrl = _webDriver.Url;
+            action = new Actions(_webDriver);
+        }
+
+        public LoggedInPage ClosePopupWindow()
+        {
+            Wait.Until(ExpectedConditions.ElementExists(_popupWindowEmailActivation));
+            _webDriver.FindElement(_popupWindowEmailActivation).Click();
+            action.SendKeys(Keys.Escape).Perform();
+            return this;
+        }
+
+        public LoggedInPage GoToUserProfileActionsPage()
+        {
+            _webDriver.FindElement(_avatarImage).Click();
+            return this;
         }
 
         public string GetCurrentUrl()
