@@ -27,18 +27,6 @@ namespace HW13
         }
 
         [TestCase("6011000000000004", "1224", "123")]
-        [TestCase("5112-5581-8335-7224", "0524", "345")]
-        [TestCase("5112-5581-8335-7222", "0524", "345")]
-        [TestCase("5112-5581-8335-7221", "0524", "345")]
-        [TestCase("5112-5581-8335-7220", "0524", "345")]
-        [TestCase("5112-5581-8335-7219", "0524", "345")]
-        [TestCase("5112-5581-8335-7218", "0524", "345")]
-        [TestCase("5112-5581-8335-7217", "0524", "345")]
-        [TestCase("5112-5581-8335-7216", "0524", "345")]
-        [TestCase("5112-5581-8335-7215", "0524", "345")]
-        [TestCase("5112-5581-8335-7214", "0524", "345")]
-        [TestCase("5112-5581-8335-7213", "0524", "345")]
-        [TestCase("5112-5581-8335-7212", "0524", "345")]
         public void AddCreditCard(string cardNumber, string cardExpDate, string cardCvv)
         {
             string cardHolderName = Generators.GetRandName() + " " + Generators.GetRandName();
@@ -145,6 +133,41 @@ namespace HW13
             var profilePage2 = new UserProfileActionsPage(_webDriver);
             Assert.AreEqual(expected: "https://newbookmodels.com/account-settings/account-info/edit", actual: profilePage2.GetCurrentUrl());
             Assert.AreEqual(userEmail, profilePage2.GetEmailFromProfile());
+        }
+
+        [TestCase("123Asacbdwplb@supere.ml", "124Asacbdwplb@supere.ml")]
+        public void ChangeEmail(string emailOld, string emailNew)
+        {
+            string userPassword = Generators.GetRndPass();
+            emailOld = Generators.GetRandName() + emailOld;
+            emailNew = Generators.GetRandName() + emailNew;
+
+            //register
+            var signUpPage = new SignUpPage(_webDriver);
+            signUpPage.GoToSignUpPage()
+                .InputFirstName(Generators.GetRandName())
+                .InputLastName(Generators.GetRandName())
+                .InputEmail(emailOld)
+                .InputPassword(userPassword)
+                .InputPasswordConfirm(userPassword)
+                .InputMobile(Generators.GetRndPhone())
+                .ClickNextButton();
+
+            var signUpPage2 = new SignUpPage_2(_webDriver);
+            signUpPage2.InputCompany(Generators.GetRandName())
+                .InputCompanyUrl(Generators.GetRndCompanyUrl())
+                .InputCompanyLocation(Generators.GetAddress())
+                .ChooseIndustry(Generators.Randomchik.Next(0, 4))
+                .ClickFinishtButton();
+
+            //goto profile page
+            var loggenInPage = new LoggedInPage(_webDriver);
+            loggenInPage.GoToUserProfileActionsPage();
+
+            //submit new email and check
+            var profilePage = new UserProfileActionsPage(_webDriver);
+            profilePage.ChangeEmail(userPassword, emailNew);
+            Assert.AreEqual(emailNew, profilePage.GetEmailFromProfile());
         }
 
         [TearDown]
