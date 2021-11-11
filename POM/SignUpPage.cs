@@ -18,6 +18,13 @@ namespace HW13.POM
         private readonly By _passwordConfirmField = By.CssSelector("input[name=\"password_confirm\"]");
         private readonly By _mobileField = By.CssSelector("input[name=\"phone_number\"]");
         private readonly By _NextButton = By.CssSelector("button[class=\"SignupForm__submitButton--1m1C2 Button__button---rQSB Button__themePrimary--E5ESP Button__sizeMedium--uLCYD Button__fontSmall--1EPi5 Button__withTranslate--1qGAH\"]");
+        private readonly By _passwordInvalidErrors = By.CssSelector("div[class=\"PasswordValidation__icon--ZAHuS\"] svg");
+        private readonly By _firstNameError = By.XPath("//div[@class=\"SignupFormLayout__field--2rfUP\"]/label/input[@name=\"first_name\"]/ancestor::div[@class=\"SignupFormLayout__field--2rfUP\"]/label//div[@class=\"FormErrorText__error---nzyq\"]/div");
+        private readonly By _lastNameError = By.XPath("//div[@class=\"SignupFormLayout__field--2rfUP\"]/label/input[@name=\"last_name\"]/ancestor::div[@class=\"SignupFormLayout__field--2rfUP\"]/label//div[@class=\"FormErrorText__error---nzyq\"]/div");
+        private readonly By _emailError = By.XPath("//div[@class=\"SignupFormLayout__field--2rfUP\"]/label/input[@name=\"email\"]/ancestor::div[@class=\"SignupFormLayout__field--2rfUP\"]/label//div[@class=\"FormErrorText__error---nzyq\"]/div");
+        private readonly By _passwordError = By.XPath("//div[@class=\"SignupFormLayout__field--2rfUP\"]/label/input[@name=\"password\"]/ancestor::div[@class=\"SignupFormLayout__field--2rfUP\"]/label//div[@class=\"FormErrorText__error---nzyq\"]/div");
+        private readonly By _passwordConfirmError = By.XPath("//div[@class=\"SignupFormLayout__field--2rfUP\"]/label/input[@name=\"password_confirm\"]/ancestor::div[@class=\"SignupFormLayout__field--2rfUP\"]/label//div[@class=\"FormErrorText__error---nzyq\"]/div");
+        private readonly By _phoneError = By.XPath("//div[@class=\"SignupFormLayout__field--2rfUP\"]/label/input[@name=\"phone_number\"]/ancestor::div[@class=\"SignupFormLayout__field--2rfUP\"]/label//div[@class=\"FormErrorText__error---nzyq\"]/div");
 
         public SignUpPage(IWebDriver webDriver)
         {
@@ -66,11 +73,43 @@ namespace HW13.POM
             return this;
         }
 
+        public string CheckFirstNameErrorText()
+        {
+            return _webDriver.FindElement(_firstNameError).Text;
+        }
+        public string CheckLastNameErrorText()
+        {
+            return _webDriver.FindElement(_lastNameError).Text;
+        }
+        public string CheckEmailNameErrorText()
+        {
+            return _webDriver.FindElement(_emailError).Text;
+        }
+        public string CheckPasswordErrorText()
+        {
+            return _webDriver.FindElement(_passwordError).Text;
+        }
+        public string CheckConfirmPasswordErrorText()
+        {
+            return _webDriver.FindElement(_passwordConfirmError).Text;
+        }
+        public string CheckPhoneErrorText()
+        {
+            return _webDriver.FindElement(_phoneError).Text;
+        }
+
+        public bool CheckIfValidSvgHintShow(int errorNumber)
+        {
+            var errorSVG = _webDriver.FindElements(_passwordInvalidErrors)[errorNumber];
+            if (errorSVG.GetAttribute("width") == "14" && errorSVG.GetAttribute("height") == "13")
+            {
+                return false;
+            }
+            return true;
+        }
+
         public void ClickNextButton() =>
             _webDriver.FindElement(_NextButton).Click();
-
-        //public string GetErrorMessage() =>
-        //    _webDriver.FindElement(_errorMessage).Text;
 
     }
 }
