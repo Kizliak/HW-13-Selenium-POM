@@ -31,6 +31,15 @@ namespace HW13.POM
         private readonly By _emailChangeNewEmail = By.CssSelector("input[placeholder=\"Enter E-mail\"]");
         private readonly By _emailChangeSubmitButton = By.XPath("//common-Input[@formcontrolname=\"email\"]/../child::common-button-deprecated/button");
 
+        private readonly By _firstNameInput = By.XPath("//common-Input[@formcontrolname=\"first_name\"]/label/input[@type=\"text\"]");
+        private readonly By _lastNameInput = By.XPath("//common-Input[@formcontrolname=\"last_name\"]/label/input[@type=\"text\"]");
+        private readonly By _industryInput = By.XPath("//common-Input[@formcontrolname=\"industry\"]/label/input[@type=\"text\"]");
+        private readonly By _companyLocationInput = By.XPath("//common-google-maps-autocomplete[@formcontrolname=\"first_name\"]/label/input[@type=\"text\"]");
+        private readonly By _userNameDisplayed = By.XPath("//nb-paragraph/div[@class='paragraph_type_gray']");
+        private readonly By _companyLocationDisplayed = By.CssSelector("div[class='paragraph_type_gray']");
+        private readonly By _industryDisplayed = By.CssSelector("div[class='paragraph_type_gray']");
+        private readonly By _buttonSaveGeneralInfo = By.XPath("//common-Input[@formcontrolname=\"industry\"]/../child::common-button-deprecated/button");
+
         public UserProfileActionsPage(IWebDriver webDriver)
         {
             _webDriver = webDriver;
@@ -106,6 +115,24 @@ namespace HW13.POM
             _wait.Until(ExpectedConditions.ElementExists(_emailCurrentUser));
             _wait.Until(ExpectedConditions.ElementIsVisible(_emailCurrentUser));
             return this;
+        }
+
+        public (string nameDisplayed, string companyLocationDisplayed, string industryDisplayed) ChangeGeneralInfo(string newFirstName,string newLastName, string newCompanyLocation, string newIndustry)
+        {
+            _wait.Until(ExpectedConditions.ElementExists(_editSwitcherLink));
+            _webDriver.FindElement(_editSwitcherLink).Click();
+            _webDriver.FindElement(_firstNameInput).Clear();
+            _webDriver.FindElement(_firstNameInput).SendKeys(newFirstName);
+            _webDriver.FindElement(_lastNameInput).Clear();
+            _webDriver.FindElement(_lastNameInput).SendKeys(newLastName);
+            _webDriver.FindElement(_industryInput).Clear();
+            _webDriver.FindElement(_industryInput).SendKeys(newIndustry);
+            _webDriver.FindElement(_buttonSaveGeneralInfo).Click();
+            Thread.Sleep(1000);
+            _webDriver.Navigate().GoToUrl("https://newbookmodels.com/account-settings/account-info/edit");
+            _wait.Until(ExpectedConditions.ElementExists(_userNameDisplayed));
+            _wait.Until(ExpectedConditions.ElementIsVisible(_userNameDisplayed));
+            return (_webDriver.FindElements(_userNameDisplayed)[1].Text.Trim(), _webDriver.FindElements(_userNameDisplayed)[2].Text, _webDriver.FindElements(_userNameDisplayed)[3].Text);
         }
 
         public string GetCurrentUrl()
