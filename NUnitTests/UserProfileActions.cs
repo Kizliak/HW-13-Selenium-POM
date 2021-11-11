@@ -170,6 +170,39 @@ namespace HW13
             Assert.AreEqual(emailNew, profilePage.GetEmailFromProfile());
         }
 
+        [TestCase("Valera", "Gnidoy", "123 South Figueroa Street", "Cosmetics")]
+        public void ChangeGeneralInfo(string newFirstName, string newLastName, string newCompanyLocation, string newIndustry)
+        {
+            //register
+            string password = Generators.GetRndPass();
+            var signUpPage = new SignUpPage(_webDriver);
+            signUpPage.GoToSignUpPage()
+                .InputFirstName(Generators.GetRandName())
+                .InputLastName(Generators.GetRandName())
+                .InputEmail(Generators.GetRndEmail())
+                .InputPassword(password)
+                .InputPasswordConfirm(password)
+                .InputMobile(Generators.GetRndPhone())
+                .ClickNextButton();
+
+            var signUpPage2 = new SignUpPage_2(_webDriver);
+            signUpPage2.InputCompany(Generators.GetRandName())
+                .InputCompanyUrl(Generators.GetRndCompanyUrl())
+                .InputCompanyLocation(Generators.GetAddress())
+                .ChooseIndustry(Generators.Randomchik.Next(0, 4))
+                .ClickFinishtButton();
+
+            //goto profile page
+            var loggenInPage = new LoggedInPage(_webDriver);
+            loggenInPage.GoToUserProfileActionsPage();
+
+            //submit new GeneralInfo
+            var profilePage = new UserProfileActionsPage(_webDriver);
+            (string nameDisplayed, string companyLocationDisplayed, string industryDisplayed) result = profilePage.ChangeGeneralInfo(newFirstName, newLastName, newCompanyLocation, newIndustry);
+            Assert.AreEqual(newFirstName + " " + newLastName, result.nameDisplayed);
+            Assert.AreEqual(newIndustry, result.industryDisplayed);
+        }
+
         [TearDown]
         public void TearDown()
         {
