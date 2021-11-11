@@ -18,9 +18,7 @@ namespace HW13.POM
         private readonly By _passwordConfirmField = By.CssSelector("input[name=\"password_confirm\"]");
         private readonly By _mobileField = By.CssSelector("input[name=\"phone_number\"]");
         private readonly By _NextButton = By.CssSelector("button[class=\"SignupForm__submitButton--1m1C2 Button__button---rQSB Button__themePrimary--E5ESP Button__sizeMedium--uLCYD Button__fontSmall--1EPi5 Button__withTranslate--1qGAH\"]");
-
         private readonly By _passwordInvalidErrors = By.CssSelector("div[class=\"PasswordValidation__icon--ZAHuS\"] svg");
-
         private readonly By _firstNameError = By.XPath("//div[@class=\"SignupFormLayout__field--2rfUP\"]/label/input[@name=\"first_name\"]/ancestor::div[@class=\"SignupFormLayout__field--2rfUP\"]/label//div[@class=\"FormErrorText__error---nzyq\"]/div");
         private readonly By _lastNameError = By.XPath("//div[@class=\"SignupFormLayout__field--2rfUP\"]/label/input[@name=\"last_name\"]/ancestor::div[@class=\"SignupFormLayout__field--2rfUP\"]/label//div[@class=\"FormErrorText__error---nzyq\"]/div");
         private readonly By _emailError = By.XPath("//div[@class=\"SignupFormLayout__field--2rfUP\"]/label/input[@name=\"email\"]/ancestor::div[@class=\"SignupFormLayout__field--2rfUP\"]/label//div[@class=\"FormErrorText__error---nzyq\"]/div");
@@ -112,9 +110,6 @@ namespace HW13.POM
 
         public void ClickNextButton() =>
             _webDriver.FindElement(_NextButton).Click();
-
-        //public string GetErrorMessage() =>
-        //    _webDriver.FindElement(_errorMessage).Text;
 
     }
 }

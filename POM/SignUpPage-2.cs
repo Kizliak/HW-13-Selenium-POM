@@ -2,17 +2,14 @@
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace HW13.POM
 {
     class SignUpPage_2
     {
         private readonly IWebDriver _webDriver;
+        private WebDriverWait _wait;
 
         private readonly By _companyNameField = By.CssSelector("input[name=\"company_name\"]");
         private readonly By _companyUrlField = By.CssSelector("input[name=\"company_website\"]");
@@ -21,12 +18,12 @@ namespace HW13.POM
         private readonly By _industryDropDown = By.ClassName("Select__option--1IbG6");
         private readonly By _industryDropDownChecker = By.CssSelector("div[role=\"listbox\"]");
         private readonly By _FinishButton = By.CssSelector("button[class=\"SignupCompanyForm__submitButton--3mz3p Button__button---rQSB Button__themePrimary--E5ESP Button__sizeMedium--uLCYD Button__fontSmall--1EPi5 Button__withTranslate--1qGAH\"]");
-        WebDriverWait Wait;
+        
 
         public SignUpPage_2(IWebDriver webDriver)
         {
             _webDriver = webDriver;
-            Wait = new WebDriverWait(_webDriver, new TimeSpan(0, 0, 15));
+            _wait = new WebDriverWait(_webDriver, new TimeSpan(0, 0, 15));
         }
 
         public SignUpPage_2 InputCompany(string companyName)
@@ -45,7 +42,7 @@ namespace HW13.POM
         {
             _webDriver.FindElement(_locationField).Click();
             _webDriver.FindElement(_locationField).SendKeys(location);
-            Wait.Until(ExpectedConditions.ElementExists(By.CssSelector("span[class=\"pac-item-query\"]")));
+            _wait.Until(ExpectedConditions.ElementExists(By.CssSelector("span[class=\"pac-item-query\"]")));
             _webDriver.FindElement(_locationField).SendKeys(Keys.ArrowDown);
             Thread.Sleep(300);
             _webDriver.FindElement(_locationField).SendKeys(Keys.Enter);
@@ -56,7 +53,7 @@ namespace HW13.POM
         public SignUpPage_2 ChooseIndustry(int industryNum)
         {
             _webDriver.FindElement(_industryField).Click();
-            Wait.Until(ExpectedConditions.ElementIsVisible(_industryDropDownChecker));
+            _wait.Until(ExpectedConditions.ElementIsVisible(_industryDropDownChecker));
             _webDriver.FindElements(_industryDropDown)[industryNum].Click();
             return this;
         }

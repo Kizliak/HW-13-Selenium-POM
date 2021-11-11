@@ -13,7 +13,6 @@ namespace HW13.Utils
         {
             var chars = "abcdefghijklmnopqrstuvwxyz";
             var stringChars = new char[8];
-            //var randomchik = new Random();
 
             for (int i = 0; i < stringChars.Length; i++)
             {
@@ -21,9 +20,7 @@ namespace HW13.Utils
             }
 
             stringChars[0] = Char.ToUpper(stringChars[0]);
-
             var name = new String(stringChars);
-
             return name;
         }
 
@@ -40,9 +37,7 @@ namespace HW13.Utils
             }
 
             stringChars[0] = Char.ToUpper(stringChars[0]);
-
             var password = new String(stringChars) + random.Next(0, 9) + specialChars[random.Next(0, specialChars.Count())];
-
             return password;
         }
 
@@ -57,7 +52,6 @@ namespace HW13.Utils
             }
 
             var phoneNumber = new String(stringChars);
-
             return phoneNumber;
         }
 
@@ -72,9 +66,7 @@ namespace HW13.Utils
             }
 
             string date = DateTime.Now.ToString("yyyyMMddHHmmss");
-
             var email = new String(stringChars) + date + "@gmail.com";
-
             return email;
         }
 
@@ -88,7 +80,6 @@ namespace HW13.Utils
             int expYear = rnd.Next(22, 27);
 
             return ("5112-5581-8335-7236", "05" + "24", cvv.ToString());
-            //return ("5112-5581-8335-7244", "05" + "25", cvv.ToString());
         }
 
         public static string GetRndCompanyUrl()

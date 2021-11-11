@@ -3,11 +3,7 @@ using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace HW13.POM
 {
@@ -41,27 +37,6 @@ namespace HW13.POM
             _wait = new WebDriverWait(_webDriver, new TimeSpan(0, 0, 15));
             _pageUrl = _webDriver.Url;
             _action = new Actions(_webDriver);
-        }
-
-        public void EditInformation(string whatToEdit)
-        {
-            int blockEditNum = 0;
-            switch (whatToEdit)
-            {
-                case "General information":
-                    blockEditNum = 0;
-                    break;
-                case "E-mail Address":
-                    blockEditNum = 1;
-                    break;
-                case "Password":
-                    blockEditNum = 2;
-                    break;
-                case "Phone Number":
-                    blockEditNum = 3;
-                    break;
-            }
-            _webDriver.FindElements(_editSwitcherLink)[blockEditNum].Click();
         }
 
         public UserProfileActionsPage CreditCardAdd(string cardHolderName, string cardNumber, string cardDate, string cvv)
@@ -118,11 +93,6 @@ namespace HW13.POM
         public string GetEmailFromProfile()
         {
             return _webDriver.FindElement(_emailCurrentUser).Text;
-        }
-
-        public UserProfileActionsPage SubmitNewEmail()
-        {
-            return this;
         }
 
         public UserProfileActionsPage ChangeEmail(string userPassword, string newEmail)

@@ -1,20 +1,14 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace HW13.POM
 {
     class SignInPage
     {
         private readonly IWebDriver _webDriver;
-        private WebDriverWait wait;
+        private WebDriverWait _wait;
         private readonly string _pageUrl;
 
         private readonly By _emailField = By.CssSelector("input[type=email]");
@@ -25,7 +19,7 @@ namespace HW13.POM
         public SignInPage(IWebDriver webDriver)
         {
             _webDriver = webDriver;
-            wait = new WebDriverWait(_webDriver, new TimeSpan(0, 0, 15));
+            _wait = new WebDriverWait(_webDriver, new TimeSpan(0, 0, 15));
             _pageUrl = _webDriver.Url;
         }
 
@@ -49,7 +43,7 @@ namespace HW13.POM
 
         public SignInPage CheckIfLoginButtonExsist()
         {
-            wait.Until(ExpectedConditions.ElementExists(_loginButton));
+            _wait.Until(ExpectedConditions.ElementExists(_loginButton));
             return this;
         }
 
